@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+
+        <form>
+          <div>
+            <input type="text" id="fnome" />
+            <label for="fnome">parte 1</label>
+          </div>
+          <div>
+            <input type="text" id="femail" />
+            <label for="femail">parte 2</label>
+          </div>
+          <div>
+            <input type="text" id="imagem" />
+            <label for="imagem">parte 3</label>
+          </div>
+          <div>
+            <input type="text" id="repositorio" />
+            <label for="repositorio">parte 4</label>
+          </div>
+        </form>
+      
+        <button onclick="salvarConteudoStorage()">
+                  Salvar tarefas aqui
+              </button>
+      
+      </div>
+      
+      <div>
+        <table>
+          <th>todas</th>
+          <th>tarefas</th>
+          <th>salvas</th>
+          <th>aqui</th>
+          <tbody id="corpoTabela">
+      
+          </tbody>
+        </table>
+      </div>
+<script>
+   const tBody = document.getElementById('corpoTabela');
+
+function salvarConteudoStorage() {
+  let arraycadastro = [];
+
+  if (localStorage.getItem('dados') != null) {
+    arraycadastro = JSON.parse(localStorage.getItem('dados'));
+  } else {
+    arraycadastro;
+  }
+
+  var nome = document.getElementById("fnome").value;
+  var email = document.getElementById("femail").value;
+  var imagem = document.getElementById("imagem").value;
+  var repositorio = document.getElementById("repositorio").value;
+
+
+  var info = {
+    nome,
+    email,
+    imagem,
+    repositorio
+  };
+
+  arraycadastro.push(info);
+  var infoJson = JSON.stringify(arraycadastro);
+  localStorage.setItem("dados", infoJson);
+
+  buscarConteudo();
+}
+
+
+function buscarConteudo() {
+  const arr = JSON.parse(localStorage.getItem('dados'));
+
+  if (arr != null) {
+    let tr = '';
+    arr.map(conteudo => {
+      tr += `
+			<tr>
+					<td>${conteudo.nome}</td>
+					<td>${conteudo.email}</td>
+					<td>${conteudo.imagem}</td>
+					<td>${conteudo.repositorio}</td>
+				</tr>`
+
+
+    })
+    tBody.innerHTML = tr;
+  }
+}
+</script>
+    
+</body>
+</html>
